@@ -3,7 +3,7 @@ clear;
 clc;
 close all
 
-
+xc_location=[0,0.025,0.05,0.10,0.20,0.40,0.60,0.80,0.90,1,0.025,0.05,0.10,0.20,0.40,0.60,0.80,0.90];
 
 %Coarse Pressure Distribution Data Load
 
@@ -82,8 +82,49 @@ P_20_Pos_2_degree_fine_mean=mean(P_20_Pos_2_degree_fine);
 P_20_Neg_4_degree_fine_mean=mean(P_20_Neg_4_degree_fine);
 P_20_Pos_4_degree_fine_mean=mean(P_20_Pos_4_degree_fine);
 
-%Calculate Dynamic Pressure 
-P1=101700; %Atmospheric Pressure 
+
+%Get Average Pressure for each port and calculate CP
+%-4 degrees
+for i=1:(size(Neg_4_degree_fine,2)-2)
+    P_Neg_4_fine_port(i)=mean(Neg_4_degree_fine(:,i));
+    CP_Neg_4_fine(i)=(P_Neg_4_fine_port(i)-P_19_Neg_4_degree_fine_mean)/(P_19_Neg_4_degree_fine_mean-P_20_Neg_4_degree_fine_mean);
+end
+
+%-2 degrees
+for i=1:(size(Neg_2_degree_coarse,2)-2)
+    P_Neg_2_coarse_port(i)=mean(Neg_2_degree_coarse(:,i));
+    CP_Neg_2_coarse(i)=(P_Neg_2_coarse_port(i)-P_19_Neg_2_degree_coarse_mean)/(P_19_Neg_2_degree_coarse_mean-P_20_Neg_2_degree_coarse_mean);
+end
+
+%Zero Degrees
+for i=1:(size(Zero_degree_coarse,2)-2)
+    P_zero_coarse_port(i)=mean(Zero_degree_coarse(:,i));
+    CP_zero_coarse(i)=(P_zero_coarse_port(i)-P_19_Zero_degree_coarse_mean)/(P_19_Zero_degree_coarse_mean-P_20_Zero_degree_coarse_mean);
+end
+
+
+%2 degrees
+for i=1:(size(Pos_2_degree_coarse,2)-2)
+    P_Pos_2_coarse_port(i)=mean(Pos_2_degree_coarse(:,i));
+    CP_Pos_2_coarse(i)=(P_Pos_2_coarse_port(i)-P_19_Pos_2_degree_coarse_mean)/(P_19_Pos_2_degree_coarse_mean-P_20_Pos_2_degree_coarse_mean);
+end
+
+
+%4 degrees
+for i=1:(size(Pos_4_degree_coarse,2)-2)
+    P_Pos_4_coarse_port(i)=mean(Pos_4_degree_coarse(:,i));
+    CP_Pos_4_coarse(i)=(P_Pos_4_coarse_port(i)-P_19_Pos_4_degree_coarse_mean)/(P_19_Pos_4_degree_coarse_mean-P_20_Pos_4_degree_coarse_mean);
+end
+
+
+
+
+
+
+
+%plot CP Distribution
+%plot(xc_location,CP_zero_coarse);
+plot(xc_location,CP_Pos_2_coarse);
 
 
 
