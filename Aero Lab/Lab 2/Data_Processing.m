@@ -3,7 +3,7 @@ clear;
 clc;
 close all
 
-xc_location=[0,0.025,0.05,0.10,0.20,0.40,0.60,0.80,0.90,1,0.025,0.05,0.10,0.20,0.40,0.60,0.80,0.90];
+xc_location=[0,0.025,0.05,0.10,0.20,0.40,0.60,0.80,0.90,1];
 
 %Coarse Pressure Distribution Data Load
 
@@ -87,44 +87,86 @@ P_20_Pos_4_degree_fine_mean=mean(P_20_Pos_4_degree_fine);
 %-4 degrees
 for i=1:(size(Neg_4_degree_fine,2)-2)
     P_Neg_4_fine_port(i)=mean(Neg_4_degree_fine(:,i));
-    CP_Neg_4_fine(i)=(P_Neg_4_fine_port(i)-P_19_Neg_4_degree_fine_mean)/(P_19_Neg_4_degree_fine_mean-P_20_Neg_4_degree_fine_mean);
+    CP_Neg_4_fine(i)=(P_Neg_4_fine_port(i)-P_19_Neg_4_degree_fine_mean)/(P_19_Neg_4_degree_fine_mean-P_20_Neg_4_degree_fine_mean)*(-1);
 end
 
 %-2 degrees
 for i=1:(size(Neg_2_degree_coarse,2)-2)
     P_Neg_2_coarse_port(i)=mean(Neg_2_degree_coarse(:,i));
-    CP_Neg_2_coarse(i)=(P_Neg_2_coarse_port(i)-P_19_Neg_2_degree_coarse_mean)/(P_19_Neg_2_degree_coarse_mean-P_20_Neg_2_degree_coarse_mean);
+    CP_Neg_2_coarse(i)=(P_Neg_2_coarse_port(i)-P_19_Neg_2_degree_coarse_mean)/(P_19_Neg_2_degree_coarse_mean-P_20_Neg_2_degree_coarse_mean)*(-1);
 end
 
 %Zero Degrees
 for i=1:(size(Zero_degree_coarse,2)-2)
     P_zero_coarse_port(i)=mean(Zero_degree_coarse(:,i));
-    CP_zero_coarse(i)=(P_zero_coarse_port(i)-P_19_Zero_degree_coarse_mean)/(P_19_Zero_degree_coarse_mean-P_20_Zero_degree_coarse_mean);
+    CP_zero_coarse(i)=(P_zero_coarse_port(i)-P_19_Zero_degree_coarse_mean)/(P_19_Zero_degree_coarse_mean-P_20_Zero_degree_coarse_mean)*(-1);
 end
 
 
 %2 degrees
 for i=1:(size(Pos_2_degree_coarse,2)-2)
     P_Pos_2_coarse_port(i)=mean(Pos_2_degree_coarse(:,i));
-    CP_Pos_2_coarse(i)=(P_Pos_2_coarse_port(i)-P_19_Pos_2_degree_coarse_mean)/(P_19_Pos_2_degree_coarse_mean-P_20_Pos_2_degree_coarse_mean);
+    CP_Pos_2_coarse(i)=(P_Pos_2_coarse_port(i)-P_19_Pos_2_degree_coarse_mean)/(P_19_Pos_2_degree_coarse_mean-P_20_Pos_2_degree_coarse_mean)*(-1);
 end
 
 
 %4 degrees
 for i=1:(size(Pos_4_degree_coarse,2)-2)
     P_Pos_4_coarse_port(i)=mean(Pos_4_degree_coarse(:,i));
-    CP_Pos_4_coarse(i)=(P_Pos_4_coarse_port(i)-P_19_Pos_4_degree_coarse_mean)/(P_19_Pos_4_degree_coarse_mean-P_20_Pos_4_degree_coarse_mean);
+    CP_Pos_4_coarse(i)=(P_Pos_4_coarse_port(i)-P_19_Pos_4_degree_coarse_mean)/(P_19_Pos_4_degree_coarse_mean-P_20_Pos_4_degree_coarse_mean)*(-1);
 end
 
 
+Zero_CP_Upper=CP_zero_coarse(1:1:10);
+Zero_CP_Lower=[CP_zero_coarse(1,1),CP_zero_coarse(1,11:18),CP_zero_coarse(1,10)];
+
+pos2_CP_Upper=CP_Pos_2_coarse(1:1:10);
+pos2_CP_Lower=[CP_Pos_2_coarse(1,1),CP_Pos_2_coarse(1,11:18),CP_Pos_2_coarse(1,10)];
+
+
+pos4_CP_Upper=CP_Pos_4_coarse(1:1:10);
+pos4_CP_Lower=[CP_Pos_4_coarse(1,1),CP_Pos_4_coarse(1,11:18),CP_Pos_4_coarse(1,10)];
+
+neg4_CP_Upper=CP_Neg_4_fine(1:1:10);
+neg4_CP_Lower=[CP_Neg_4_fine(1,1),CP_Neg_4_fine(1,11:18),CP_Neg_4_fine(1,10)];
+
+neg2_CP_Upper=CP_Neg_2_coarse(1:1:10);
+neg2_CP_Lower=[CP_Neg_2_coarse(1,1),CP_Neg_2_coarse(1,11:18),CP_Neg_2_coarse(1,10)];
 
 
 
+
+cl_zero=trapz(Zero_CP_Upper-Zero_CP_Lower,xc_location);
+cl_pos2=trapz(pos2_CP_Upper-pos2_CP_Lower,xc_location);
+cl_neg2=trapz(neg2_CP_Upper-neg2_CP_Lower,xc_location);
+cl_pos4=trapz(pos4_CP_Upper-pos4_CP_Lower,xc_location);
+cl_neg4=trapz(neg4_CP_Upper-neg4_CP_Lower,xc_location);
+
+
+
+
+
+neg4_le_moment=-trapz((neg4_CP_Upper-neg4_CP_Lower)*0.30/4,xc_location);
+neg2_le_moment=-trapz((neg2_CP_Upper-neg2_CP_Lower)*0.30/4,xc_location);
+zero_le_moment=-trapz((Zero_CP_Upper-Zero_CP_Lower)*0.30/4,xc_location);
+pos2_le_moment=-trapz((pos2_CP_Upper-pos2_CP_Lower)*0.30/4,xc_location);
+pos4_le_moment=-trapz((pos4_CP_Upper-pos4_CP_Lower)*0.30/4,xc_location);
+
+
+
+neg4_qc_moment=-trapz((neg4_CP_Upper-neg4_CP_Lower)*(0.30/4-0.25),xc_location)
+neg2_qc_moment=-trapz((neg2_CP_Upper-neg2_CP_Lower)*(0.30/4-0.25),xc_location)
+zero_qc_moment=-trapz((Zero_CP_Upper-Zero_CP_Lower)*(0.30/4-0.25),xc_location)
+pos2_qc_moment=-trapz((pos2_CP_Upper-pos2_CP_Lower)*(0.30/4-0.25),xc_location)
+pos4_qc_moment=-trapz((pos4_CP_Upper-pos4_CP_Lower)*(0.30/4-0.25),xc_location)
 
 
 %plot CP Distribution
 %plot(xc_location,CP_zero_coarse);
-plot(xc_location,CP_Pos_2_coarse);
-
-
+plot(xc_location,pos2_CP_Lower)
+hold on 
+plot(xc_location,pos2_CP_Upper)
+title('CP Distribution 2 AOA')
+xlabel("x/c")
+ylabel("CP")
 
