@@ -109,16 +109,16 @@ TE_15_zfinal=TE_15_zcurr/TE_15_z99;
 
 laminar_boundary= @(x)  1-sqrt(-x+1);
 turbulent_boundary= @(x) x^(7);
-plot(FP_10_UE,FP_10_zfinal,FP_15_UE,FP_15_zfinal,LE_10_UE,LE_10_zfinal,LE_15_UE,LE_15_zfinal,TE_10_UE,TE_10_zfinal,TE_15_UE,TE_15_zfinal)
-xlabel("m/s (normalized)")
-ylabel("Meters (normalized)")
+plot(FP_10_UE,FP_10_zfinal,"o",FP_15_UE,FP_15_zfinal,"x")
+xlabel("U/Ue")
+ylabel("Y/delta_99")
 
 hold on
 
 
 fplot(laminar_boundary,[0 1])
 fplot(turbulent_boundary, [0 1]) 
-legend("10m/s", "15m/s","Laminar Empirical", "Turbulent Emperical","Location","northwest")
+legend("10m/s Flat Plate", "15m/s Flat Plate","Empirical Laminar Boundary Layer", "Empirical Turbulent Boundary Layer","Location","northwest")
 
 
 
