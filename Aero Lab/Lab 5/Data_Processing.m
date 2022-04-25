@@ -86,7 +86,7 @@ hold on
 %legend("150ft/s Positive","150ft/s Negative","100ft/s Positive","100ft/s Negative","Location","Northwest")
 
 %CD vs Alpha
-%plot(Group1_Pos100.Yaw,CD_Pos100,"x","Color","B")
+%0plot(Group1_Pos100.Yaw,CD_Pos100,"x","Color","B")
 %plot(Group1_Neg100.Yaw,CD_Neg100,"x","Color","B")
 %plot(Group2_Pos150.Yaw,CD_Pos150,"*","Color","r")
 %plot(Group2_Neg150.Yaw,CD_Neg150,"*","Color","r")
@@ -101,7 +101,7 @@ hold on
 %plot(CD_Neg150,CL_Neg150,"*","Color","r")
 %xlabel("CD")
 %ylabel("CL")
-%legend("100ft/s Positive","100ft/s Negative","150ft/s Positive","150ft/s Negative","Location","North")
+%legend("100ft/s Positive","100ft/s Negative","150ft/s Positive","150ft/s Negative","Location","best")
 
 %CL/CD vs Alpha
 %plot(Group1_Pos100.Yaw,CL_CDPos100,"x","Color","b")
